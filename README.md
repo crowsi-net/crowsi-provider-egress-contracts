@@ -1,23 +1,30 @@
-# Crowsi provider egress contracts
+# crowsi-provider-egress-contracts
 
-This crate owns closed outbound-route policy for external provider adapters.
-Provider libraries such as Zixcel create typed protocol plans; Crowsi validates
-the destination and bounds the bytes before a product transport executes them.
-The product cannot choose a different provider host or relax the response
-limit.
+Declare exactly where a provider request may go and how much data it may transfer.
 
-`OpenAiAuthorizationEgress` is limited to `https://auth.openai.com`, rejects
-userinfo, fragments and non-default ports, and accepts only GET and POST. It is
-an account-authorization route, not a generic web proxy or a model-inference
-authorization mechanism.
+## What you can do
 
-Hatter may transport an `AuthorizedEgressRequest`, but OpenAI endpoints, OAuth
-fields and provider response interpretation remain in `zixcel-openai-auth`.
-Persistent credential material remains in Crowsi custody.
+- Validate destination, method and size limits.
+- Share a strict egress contract with transport adapters.
 
-## Verify
+## Current scope
 
-```bash
-cargo test --locked --offline
-cargo clippy --locked --offline --all-targets -- -D warnings
+The contracts describe allowed communication; the caller must supply authorization and enforcement.
+
+Package distribution is not activated by this documentation. Use the checked-in source and the declared dependency versions; published availability must be verified separately.
+
+## Getting started
+
+Install Rust 1.97 or newer and make the declared dependencies available. Use the configured private registry when a dependency is not distributed publicly. Run from this repository:
+
+```sh
+cargo test --locked
 ```
+
+## Documentation and source
+
+[Interface reference](docs/interface-reference.md)
+
+[Usage guide](docs/getting-started.md)
+
+[Implementation and public interfaces](src) · [Contributing](CONTRIBUTING.md) · [Security reporting](SECURITY.md) · [License](LICENSE) · [Attribution notices](NOTICE)
